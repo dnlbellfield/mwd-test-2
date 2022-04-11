@@ -1,0 +1,200 @@
+<!-- MWD 2022 Pop-Up Lightbox // 2022-03-24, MWD -->
+<style>
+    div.mwdPopUp, div.mwdPopUp * {
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    div.mwdPopUp {
+        display: none;
+        opacity: 0;
+    }
+
+    div.mwdPopUp.mwdShow {
+        opacity: 1;
+        transition: opacity .33s;
+    }
+
+    div.mwdPopUp table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    div.mwdPopUp img {
+        display: block;
+    }
+
+    div.mwdPopUp .mwdClick {
+        cursor: pointer;
+    }
+
+    div.mwdPopUp .mwdClick:active {
+        position: relative;
+        top: 1px;
+        opacity: .66;
+    }
+
+    div.mwdPopUp span.mwdClick.mwdClose {
+        padding: .25em;
+    }
+
+    div.mwdPopUp span.mwdClick.mwdClose img {
+        width:20px; padding: 0px;
+    }
+
+    div#mwdPopUp {
+        font-family: Helvetica, Arial, sans-serif;
+        overflow-x: scroll;
+    }
+
+    div.mwdPopUpBody {
+        position: fixed;
+        z-index: 9000;
+    }
+
+    div#mwdScreenOverlay {
+        position: fixed;
+        z-index: 8000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: lightgray;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    div#mwdPopUp {
+        padding: 0px;
+        transition: opacity .5s;
+    }
+
+    div#mwdPopUp div.mwdPopUpBody {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: opacity .5s, top .25s;
+        width: 100%;
+        max-width: 700px;
+        height: auto;
+        padding: 0px;
+    }
+
+    div#mwdPopUp span.mwdClick.mwdClose {
+        position: fixed;
+        top: -30px;
+        right: 0;
+    } 
+
+    div#mwdPopUp div.mwdPopUpBody .mwdContent {
+        background-color: cadetblue;
+    } 
+    
+    div#mwdPopUp div.mwdPopUpBody .mwdContent td {
+        text-align: center;
+        width: 100%;
+    }
+
+    div#mwdPopUp div.mwdPopUpBody .mwdContent p {
+        color: #ffffff; 
+        font-weight: normal; 
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    div#mwdPopUp div.mwdPopUpBody .mwdContent a.mwdClick.mwdWait img {    
+        width:100%; 
+        max-width: 484px; 
+        height: auto; 
+        margin: 1em auto 0;
+    }
+
+    div#mwdPopUp div.mwdPopUpBody .mwdContent td.copyPadding {
+        padding: 10px 15% 20px;
+    }
+
+    div#mwdPopUp a.mwdClick.mwdMainButton img {
+        margin: 0 auto 1.5em;
+        width: 100%;
+        height: auto;
+        max-width: 310px;
+    }
+
+    @media screen and (max-width:680px) {
+       div#mwdPopUp span.mwdClick.mwdClose {
+            right: 0% !important;
+            top: -10% !important;
+        }
+    }
+</style>
+        
+<div id="mwdPopUp" class="mwdPopUp">
+    <div id="mwdScreenOverlay" class="mwdClose"></div>
+    <div class="mwdPopUpBody">
+        <span class="mwdClick mwdClose">
+            <img src="images/close_button.png">
+        </span>
+        <table class="mwdContent">
+            <tr>
+                <td>
+                    <a href="https://placeholder.com" class="mwdClick mwdWait"><img src="images/wait_484x190.png"></a>
+                </td>
+            </tr>
+            <tr>
+                <td class="copyPadding">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed loem velit. Duis urna velit, ultricies sit amet nulla quis, auctor lobortis arcu.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://placeholder.com" class="mwdClick mwdMainButton"><img src="images/give_now_310x60.png"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    (function () {
+
+        var popUpName = '2022_MWD_POPUP'; 
+        var popUp = document.querySelector('div#mwdPopUp');
+
+        checkIsTestMode() ? showPopUp() : console.warn('Not in test mode.');
+
+        function showPopUp() {
+            setupCloseEvents();
+
+            setTimeout(function () {
+                popUp.style.display = 'block';
+                setTimeout(function () {
+                    popUp.classList.add('mwdShow');
+                }, 1);
+            }, 500);
+        }
+
+        function checkIsTestMode() {
+            var reTestMode = new RegExp('test=' + popUpName, 'i');
+            return (window.location.search.match(reTestMode));
+        }
+ 
+        function setupCloseEvents() {
+            var targets = document.querySelectorAll('div#mwdPopUp .mwdClose');
+
+            for (var i = 0; i < targets.length; i++) {
+                targets[i].addEventListener('click', function () {
+                    closePopUp();
+                });
+            }
+        }
+
+        function closePopUp() {
+            popUp.classList.remove('mwdShow');
+
+            setTimeout(function () {
+                popUp.style.display = 'none';
+            }, 999);
+        } 
+
+    })();
+</script>
